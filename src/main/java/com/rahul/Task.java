@@ -3,39 +3,44 @@ package com.rahul;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task> {
     private int taskId;
     private String taskName;
     private String taskDesc;
     private Date dueDate;
     private Taskstatus status;
-    public Task(){
+
+    public Task() {
 
     }
+
     @Override
     public String toString() {
-        SimpleDateFormat time=new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy");
         return
-                ( " taskid : " + taskId +
-                " taskname : " + taskName  +
-                " taskDesc : " + taskDesc  +
-                " duedate : "  + time.format(dueDate)  +
-                " status : " + status);
+                ("taskid : " + taskId +
+                        " taskname : " + taskName +
+                        " taskDesc : " + taskDesc +
+                        " duedate : " + time.format(dueDate) +
+                        " status : " + status + '\n');
     }
 
-    Task(int taskId,String task, String des, Date td, Taskstatus status) {
-        this.taskId=taskId;
+    Task(int taskId, String task, String des, Date td, Taskstatus status) {
+        this.taskId = taskId;
         this.taskName = task;
         this.taskDesc = des;
         this.dueDate = td;
         this.status = status;
     }
-    public int getTaskId(){
+
+    public int getTaskId() {
         return taskId;
     }
-    public void setTaskId(int taskId){
-        this.taskId=taskId;
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
+
     public Taskstatus getStatus() {
         return status;
     }
@@ -70,9 +75,14 @@ public class Task implements Comparable<Task>{
 
     @Override
     public int compareTo(Task task) {
-        if(this.getDueDate().compareTo(task.getDueDate())==0)
-            return 0;
-        else if(this.getDueDate().compareTo(task.getDueDate())<0)
+        if (this.getDueDate().compareTo(task.getDueDate()) == 0) {
+            if (this.getStatus().compareTo(task.getStatus()) == 0)
+                return 0;
+            else if (this.getStatus().compareTo(task.getStatus()) < 0)
+                return -1;
+            else
+                return 1;
+        } else if (this.getDueDate().compareTo(task.getDueDate()) < 0)
             return -1;
         else
             return 1;

@@ -11,18 +11,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class TaskFileRepository implements TaskRepository{
-    private static final String TASKS_JSON_FILE="/home/rahulp/Desktop/workspace/java/tasks.json";
-    private ObjectMapper objectMapper=new ObjectMapper();
+public class TaskFileRepository implements TaskRepository {
+    private static final String TASKS_JSON_FILE = "/home/rahulp/IdeaProjects/task-webapp/src/main/java/com/rahul/tasks.json";
+    private ObjectMapper objectMapper = new ObjectMapper();
     ArrayList<Task> tasks;
-    File file=new File(TASKS_JSON_FILE);
-    public TaskFileRepository(){
-        tasks=readFromFile();
+    File file = new File(TASKS_JSON_FILE);
+
+    public TaskFileRepository() {
+        tasks = readFromFile();
     }
+
     private void writeToFile(ArrayList<Task> tasks) {
         try {
             objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new FileWriter(TASKS_JSON_FILE),tasks);
+                    .writeValue(new FileWriter(TASKS_JSON_FILE), tasks);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -60,8 +62,8 @@ public class TaskFileRepository implements TaskRepository{
 
     @Override
     public Task search(int id) {
-        for(Task str:tasks) {
-            if (str.getTaskId()==id) {
+        for (Task str : tasks) {
+            if (str.getTaskId() == id) {
                 return str;
             }
         }
@@ -70,8 +72,8 @@ public class TaskFileRepository implements TaskRepository{
 
     @Override
     public boolean delete(int del) {
-        for(Task task:tasks){
-            if(task.getTaskId()==del){
+        for (Task task : tasks) {
+            if (task.getTaskId() == del) {
                 tasks.remove(task);
                 writeToFile(tasks);
                 return true;
@@ -87,37 +89,39 @@ public class TaskFileRepository implements TaskRepository{
 
     @Override
     public void updateStatus(int taskid, Taskstatus newStatus) {
-        for(Task str:tasks){
-            if(str.getTaskId()==taskid){
+        for (Task str : tasks) {
+            if (str.getTaskId() == taskid) {
                 str.setStatus(newStatus);
                 writeToFile(tasks);
             }
         }
     }
+
     @Override
-    public int totalTask(){
+    public int totalTask() {
         return tasks.size();
     }
-    @Override
-    public ArrayList<Task> getPendingTask(){
-        ArrayList<Task> pendingTaskList=new ArrayList<>();
-        for(Task str:tasks){
-            if(str.getStatus().equals(Taskstatus.valueOf("CREATED"))||str.getStatus().equals(Taskstatus.valueOf("IN_PROGRESS")))
-                pendingTaskList.add(str);
 
+    @Override
+    public ArrayList<Task> getPendingTask() {
+        ArrayList<Task> pendingTaskList = new ArrayList<>();
+        for (Task str : tasks) {
+            if (str.getStatus().equals(Taskstatus.valueOf("CREATED")) || str.getStatus().equals(Taskstatus.valueOf("IN_PROGRESS")))
+                pendingTaskList.add(str);
         }
         Collections.sort(pendingTaskList);
         return pendingTaskList;
     }
+
     @Override
-    public ArrayList<Task> getTodayTask(){
-        ArrayList<Task> currentTask=new ArrayList<>();
-        Date date=new Date();
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-        String today=simpleDateFormat.format(date);
-        for(Task i:tasks){
+    public ArrayList<Task> getTodayTask() {
+        ArrayList<Task> currentTask = new ArrayList<>();
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String today = simpleDateFormat.format(date);
+        for (Task i : tasks) {
             try {
-                if(i.getDueDate().equals(simpleDateFormat.parse(today)))
+                if (i.getDueDate().equals(simpleDateFormat.parse(today)))
                     currentTask.add(i);
             } catch (ParseException e) {
                 e.printStackTrace();

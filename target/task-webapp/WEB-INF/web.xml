@@ -15,4 +15,14 @@
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/task</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HelloWorld</display-name>
+    <servlet-name>Servlet1</servlet-name>
+    <servlet-class>com.rahul.Servlet1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Servlet1</servlet-name>
+    <url-pattern>/findtaskid</url-pattern>
+  </servlet-mapping>
 </web-app>
